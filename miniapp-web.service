@@ -1,0 +1,15 @@
+[Unit]
+Description=Mini App Web Server
+After=network.target
+
+[Service]
+Type=simple
+User=telegram-bot
+WorkingDirectory=/opt/telegram-bot
+Environment="PATH=/opt/telegram-bot/venv/bin"
+ExecStart=/opt/telegram-bot/venv/bin/python web_server.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
