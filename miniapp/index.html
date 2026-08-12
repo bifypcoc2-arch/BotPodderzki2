@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Тени и Уют</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <div id="loading">
+            <div class="loader-orb"></div>
+            <p>Загрузка…</p>
+        </div>
+
+        <div id="content" hidden>
+            <header id="topbar">
+                <div class="brand">✦ Тени и Уют</div>
+                <div class="badges">
+                    <span class="badge" title="Монеты">◆ <span id="currency">0</span></span>
+                    <span class="badge" title="Серия входов">✦ <span id="login-streak">0</span> дн</span>
+                </div>
+            </header>
+
+            <main id="main-content">
+                <section id="pet-page" class="page active">
+                    <div class="page-head">
+                        <h1 id="pet-name">Питомец</h1>
+                        <span id="pet-caption" class="caption">—</span>
+                    </div>
+
+                    <div class="scene">
+                        <div class="ring ring-tl" id="ring-hunger" style="--value: 0">
+                            <div class="ring-dial"><span id="hunger-value">0</span></div>
+                            <span class="ring-label">Голод</span>
+                        </div>
+                        <div class="ring ring-tr" id="ring-happiness" style="--value: 0">
+                            <div class="ring-dial"><span id="happiness-value">0</span></div>
+                            <span class="ring-label">Счастье</span>
+                        </div>
+                        <div class="ring ring-bl" id="ring-hygiene" style="--value: 0">
+                            <div class="ring-dial"><span id="hygiene-value">0</span></div>
+                            <span class="ring-label">Гигиена</span>
+                        </div>
+                        <div class="ring ring-br" id="ring-energy" style="--value: 0">
+                            <div class="ring-dial"><span id="energy-value">0</span></div>
+                            <span class="ring-label">Энергия</span>
+                        </div>
+
+                        <div class="pet-stage-glow"></div>
+                        <div id="pet-avatar">✨</div>
+                    </div>
+
+                    <div class="meters">
+                        <div class="meter">
+                            <span class="meter-name">Дисциплина</span>
+                            <span class="meter-track"><span class="meter-fill" id="bar-discipline"></span></span>
+                            <span class="meter-value" id="discipline-value">0</span>
+                        </div>
+                        <div class="meter">
+                            <span class="meter-name">Лапки</span>
+                            <span class="meter-track"><span class="meter-fill" id="bar-strength"></span></span>
+                            <span class="meter-value" id="strength-value">0</span>
+                        </div>
+                    </div>
+
+                    <div id="pet-actions">
+                        <button class="action-btn" data-action="feed">
+                            <span class="action-icon">🍖</span>
+                            <span class="action-text">Покормить</span>
+                        </button>
+                        <button class="action-btn" data-action="play">
+                            <span class="action-icon">✦</span>
+                            <span class="action-text">Играть</span>
+                        </button>
+                        <button class="action-btn" data-action="wash">
+                            <span class="action-icon">◈</span>
+                            <span class="action-text">Мыть</span>
+                        </button>
+                        <button class="action-btn" data-action="sleep">
+                            <span class="action-icon">☾</span>
+                            <span class="action-text">Спать</span>
+                        </button>
+                        <button class="action-btn" data-action="train">
+                            <span class="action-icon">✧</span>
+                            <span class="action-text">Тренировка</span>
+                        </button>
+                    </div>
+
+                    <div class="xp-card">
+                        <div class="xp-head">
+                            <span id="xp-title">Опыт</span>
+                            <span id="xp-numbers" class="caption">0 XP</span>
+                        </div>
+                        <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
+                        <p id="growth-note" class="note"></p>
+                    </div>
+                </section>
+
+                <section id="games-page" class="page">
+                    <h2>Мини-игры</h2>
+
+                    <article class="game-card">
+                        <h3>Кости духов</h3>
+                        <p class="game-rules">Твой кубик против кубика бота. У кого больше — тот и выиграл. Победа — ◆ 5</p>
+
+                        <div class="dice-row">
+                            <div class="dice-slot">
+                                <span class="dice-face" id="dice-player">•</span>
+                                <span class="dice-owner">Ты</span>
+                            </div>
+                            <span class="dice-vs">против</span>
+                            <div class="dice-slot">
+                                <span class="dice-face" id="dice-bot">•</span>
+                                <span class="dice-owner">Бот</span>
+                            </div>
+                        </div>
+
+                        <button class="primary-btn" id="dice-btn">Бросить кости</button>
+                        <p class="note" id="dice-message"></p>
+                    </article>
+
+                    <article class="game-card">
+                        <h3>Шёпот цифр</h3>
+                        <p class="game-rules">Угадай число от 1 до 10. Точно — ◆ 15, мимо на единицу — ◆ 5</p>
+
+                        <div class="number-grid" id="number-grid"></div>
+                        <p class="note" id="number-message"></p>
+                    </article>
+
+                    <article class="game-card">
+                        <h3>Слово из тумана</h3>
+                        <p class="game-rules">Шесть попыток на слово из пяти букв. Угадал — ◆ 30, нет — ничего</p>
+
+                        <div class="wordle-board" id="wordle-board"></div>
+
+                        <form class="wordle-form" id="wordle-form" hidden>
+                            <input class="wordle-input" id="wordle-input" type="text" maxlength="5"
+                                   autocomplete="off" autocorrect="off" spellcheck="false" placeholder="слово">
+                            <button class="primary-btn" type="submit">Ответить</button>
+                        </form>
+
+                        <button class="primary-btn" id="wordle-start" hidden>Загадать слово</button>
+                        <p class="note" id="wordle-message"></p>
+                    </article>
+                </section>
+
+                <section id="home-page" class="page">
+                    <h2>Дом</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Фон и декор</h3>
+                            <p>Здесь появятся купленные фоны и обстановка для питомца</p>
+                        </div>
+                    </div>
+                    <div id="home-items" class="card-grid"></div>
+                    <p id="home-empty" class="note">Вы пока ничего не купили в магазине.</p>
+                </section>
+
+                <section id="shop-page" class="page">
+                    <h2>Магазин</h2>
+                    <div id="shop-items" class="card-grid"></div>
+                    <p id="shop-empty" class="note" hidden>Товары ещё не добавлены.</p>
+                </section>
+
+                <section id="profile-page" class="page">
+                    <h2>Профиль</h2>
+                    <div class="card-grid">
+                        <div class="stat-card"><span class="stat-name">Сообщений</span><span class="stat-value" id="stat-messages">0</span></div>
+                        <div class="stat-card"><span class="stat-name">Серия входов</span><span class="stat-value" id="stat-login-streak">0</span></div>
+                        <div class="stat-card"><span class="stat-name">Игр сыграно</span><span class="stat-value" id="stat-games">0</span></div>
+                        <div class="stat-card"><span class="stat-name">Побед в играх</span><span class="stat-value" id="stat-wins">0</span></div>
+                        <div class="stat-card"><span class="stat-name">Серия побед</span><span class="stat-value" id="stat-streak">0</span></div>
+                        <div class="stat-card"><span class="stat-name">Кормлений</span><span class="stat-value" id="stat-feedings">0</span></div>
+                        <div class="stat-card"><span class="stat-name">Купаний</span><span class="stat-value" id="stat-baths">0</span></div>
+                        <div class="stat-card"><span class="stat-name">Снов</span><span class="stat-value" id="stat-sleeps">0</span></div>
+                        <div class="stat-card"><span class="stat-name">Тренировок</span><span class="stat-value" id="stat-trainings">0</span></div>
+                    </div>
+
+                    <h3 class="section-title">Достижения</h3>
+                    <div id="achievements-list" class="card-list"></div>
+                    <p id="achievements-empty" class="note" hidden>Пока ни одного достижения. Ухаживайте за питомцем — они появятся.</p>
+                </section>
+            </main>
+
+            <nav id="navigation">
+                <button data-page="pet" class="nav-btn active">
+                    <span class="nav-icon">◐</span><span class="nav-text">Питомец</span>
+                </button>
+                <button data-page="games" class="nav-btn">
+                    <span class="nav-icon">◈</span><span class="nav-text">Игры</span>
+                </button>
+                <button data-page="home" class="nav-btn">
+                    <span class="nav-icon">⌂</span><span class="nav-text">Дом</span>
+                </button>
+                <button data-page="shop" class="nav-btn">
+                    <span class="nav-icon">▤</span><span class="nav-text">Магазин</span>
+                </button>
+                <button data-page="profile" class="nav-btn">
+                    <span class="nav-icon">◉</span><span class="nav-text">Профиль</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="assets.js"></script>
+</body>
+</html>
